@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1, initial-scale=1.0">
+    <title>Zenlygram</title>
+    <style>
+        * {color:white;}
+        span {font-size: 1.3rem;}
+        material {
+            margin-left: 1.1rem !important;
+            display: grid;
+            grid-auto-flow:column;
+            justify-content: start;
+            align-items: center;
+        }
+        icon {
+            height: 2.3rem;
+            aspect-ratio: 1/1;
+        }
+    </style>
+    <script>
+        function material() {
+            var material = document.querySelectorAll('material')
+            for (var i = 0; i < material.length; i++) {
+                material[i].onclick = function () {
+                    window.parent.parent.parent.location = "https://visoff.ru/xakaton/"+this.getAttribute("src")
+                }
+            }
+        }
+    </script>
+</head>
+<body style="background-color: #554D74; width: fit-content; padding-right: 1rem; overflow-x: hidden; display: flex; gap: 3.4rem; flex-direction: column; height: calc(100vh - 1.5rem);" onload="material()">
+    <div></div>
+    <material src=""><icon><img src="../icon/profile.svg"></icon><span style="margin-left: 1.8rem;">Аккаунт</span></material>
+
+    <div style="display: grid; grid-auto-flow:row; gap: 1.5rem;">
+        <material src=""><icon><img src="../icon/gallary.svg"></icon><span style="margin-left: 1.8rem;">Материаллы</span></material>
+        <material src=""><icon><img src="../icon/graph.svg"></icon><span style="margin-left: 1.8rem;">График</span></material>
+        <material src="chats/"><icon><img src="../icon/friends.svg"></icon><span style="margin-left: 1.8rem;">Друзья</span></material>
+        <material src="map/"><icon><img src="../icon/town.svg"></icon><span style="margin-left: 1.8rem;">Карта города</span></material>
+        <material src="calendar/"><icon><img src="../icon/calendar.svg"></icon><span style="margin-left: 1.8rem;">Встречи</span></material>
+    </div>
+    <div style="flex-grow: 1;"></div>
+    <material src="">Настрийки</span></material>
+</body>
+</html>
