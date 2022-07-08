@@ -71,7 +71,19 @@
         img.camera:active ~ div.circleMedia {
             display: flex !important;
         }
+        img.camera:active + div {
+            display:block !important;
+        }
+        svg.timeout {
+            width:calc(100% - 3px); height:calc(100% - 3px); stroke-dasharray:500; stroke-dashoffset:0; transition: stroke-dashoffset 10s;
+        }
        </style>
+       
+    <script>
+        themeNum = 0
+        themeSellector = "header"
+    </script>
+    <script src="../api/CustomUI.js"></script>
 </head>
 <body style="display: flex; flex-direction: column; height: 100vh; overflow-y: hidden;" onload="load(); Social.GenerateMessages(chatToken); document.querySelector('messageArray').parentElement.scrollTo(0, 10**5);">
     <header style="margin-top: 1.9rem; display: grid; grid-auto-flow: column; place-items: center; justify-content: space-around; align-items: center;"><img style="width:2.1rem; height:1.3rem; transform: rotateZ(-90deg);" onclick="OpenMenu()" src="../icon/ArrowUp.svg"><div style="height: 2.3rem; display: grid; align-items: center; grid-auto-flow: column; gap: 2.5rem;"><div style="background-color:white; height:2.2rem; aspect-ratio: 1/1; border-radius:50%;"></div><span class="name" style="font-size: 1.3rem; color:#796EA8;"></span></div><div style="width: 3rem;"></div></header>
@@ -86,10 +98,19 @@
     <div onclick="Social.send()" class="send hidden" style="height: 2.2rem;aspect-ratio: 1/1; overflow-y: visible;"><img src="../icon/go.svg"></div>
     <div onclick="/*startRecording()*/" class="camera" style="height: 2.2rem;aspect-ratio: 1/1; overflow-y: visible;">
         <img class="camera" src="../icon/camera.svg">
+
+        <div style="display:none; width:3rem; height:3rem; position:absolute; bottom:.2rem; right:.5rem;">
+            <div style="background-color:aqua; width:100%; aspect-ratio:1/1; border-radius:50%;"></div>
+        </div>
     
-        <div class="circleMedia" style="position:fixed; left:50%; top:50%; transform: translate(-50%, -50%); max-height:95vw; height:fit-content; aspect-ratio: 1/1; display:none; place-items:center;">
-            <div style="width: 95%; height: 95%; border-radius:50%; overflow:hidden; display:flex; place-items:center;">
-                <video autoplay="true" muted="true" style="min-height:100%; min-width:100%; background-color:white;">
+        <div class="circleMedia" style="position:fixed; left:50%; top:50%; transform: translate(-50%, -50%); max-width:95vw; width:fit-content; aspect-ratio: 1/1; display:none; place-items:center; justify-content:center;">
+            <div style="width:100%; height:100%; position:absolute; display:grid; place-items:center;">
+                <svg class="timeout" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48.5" stroke="white" stroke-width="3"/>
+                </svg>
+            </div>
+            <div style="width: calc(100% - 7px); height: calc(100% - 7px); border-radius:50%; overflow:hidden; display:flex; place-items:center;">
+                <video autoplay="true" muted="true" style="min-height:100%; min-width:100%;">
             </div>
         </div>
     </div>
@@ -106,13 +127,17 @@
                 try {vids[i].play(); vids[i].onclick = function() {this.muted = false}} catch (e) {}
             }
         }
-        if (document.querySelectorAll("img.camera:active").length > 0 && circleRec == undefined) {
+        if (document.querySelectorAll("img.camera + div:active").length > 0 && circleRec == undefined) {
+            document.querySelector("svg.timeout").style = "strokeDashoffset: 500 !important;"
             startRecording()
         }
-        if (document.querySelectorAll("img.camera:active").length == 0 && circleRec != undefined) {
+        if (document.querySelectorAll("img.camera + div:active").length == 0 && circleRec != undefined && !locked) {
             stopRecording()
         }
     }, 500);
+    navigator.getUserMedia({video:{aspectRatio:1}, audio:true}, function (stream) {
+            var video = document.querySelector(".circleMedia video")
+            video.srcObject = stream}, () => {})
     function startRecording() {
         circleRec = 1
         navigator.getUserMedia({video:{aspectRatio:1}, audio:true}, function (stream) {
@@ -122,7 +147,6 @@
                 circleFile.push(e.data)
             }
             circleRec.start(1000/60)
-            document.querySelector(".circleMedia").hidden = false
             var video = document.querySelector(".circleMedia video")
             video.srcObject = stream
             var add = ""

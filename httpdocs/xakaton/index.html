@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1, initial-scale=1.0">
+    <title>Zenlygram</title>
+    <script src="api/back.js"></script>
+    <script src="api/loginpass.js"></script>
+    <style>
+        * {
+            color: white;
+            font-family: 'Inter';
+        }
+        body {
+            min-height: 100%;
+            background-color: #796EA8;
+        }
+        input {
+            width: 79vw;
+            border: none;
+            border-radius: 30px;
+            background-color: rgba(230, 200, 200, 0.6);
+            box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+            height: 2.1rem;
+            text-align: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+        input::placeholder {
+            color: white;
+        }
+        path {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            transition: stroke-dashoffset .3s;
+        }
+        #ch1:checked ~ label > svg > path {
+            stroke-dashoffset: 0;
+        }
+        *[hidden] {
+            display:none !important;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem("p.token") != undefined && localStorage.getItem("f.token") != undefined) {
+            location = "chats"
+        }
+    </script>
+</head>
+<body>
+    <script>
+        function swapModes() {
+            modes = document.querySelectorAll("mode")
+            modes[0].hidden = !modes[0].hidden
+            modes[1].hidden = !modes[1].hidden
+        }
+    </script>
+    <mode id="login" style="margin: 1rem 0; margin-top: 6.25rem; display: grid; grid-auto-flow: row; gap: 1.5rem; place-items: center;">
+        <span style="font-size: 1.3rem;">Авторизация</span>
+        <form onsubmit="login(this); return false;" style="display: grid; place-items: center; gap: 1.5rem;">
+            <input type="text" placeholder="login">
+            <input type="password" placeholder="password" style="width: 66vw;">
+            <button style="background-color: #e5c8c88a; border: 1px solid #50a2a7; border-radius: 15px; width: 38vw; height: 2.1rem; font-size: 1.3rem;">Sign in</button>
+        </form>
+        <div style="display: grid; place-items:center; font-size: .75rem;">
+            <span>Нет аккаунта?</span><br>
+            <a href="#" onclick="swapModes()">Зарегистрировать</a>
+        </div>
+    </mode>
+    <mode hidden id="registration" style="margin: 1rem 0; margin-top: 6.25rem; display: grid; grid-auto-flow: row; gap: 1.5rem; place-items: center;">
+        <span style="font-size: 1.3rem;">Рагистрация</span>
+        <form onsubmit="if (document.querySelector('input#ch1').checked) {register(this)} return false;" style="display: grid; justify-content: center; justify-items: center; grid-auto-flow: row; gap: 1.5rem; width: 50vw;">
+            <input type="text" placeholder="login">
+            <input type="text" placeholder="email" style="width: 66vw;">
+            <input type="password" placeholder="password">
+            <div style="display: flex; align-items: flex-end; font-size: .5rem;">
+                <confirm style="height: 1.75rem; aspect-ratio:1/1;">
+                    <input style="position: fixed; left:-100vw;" type="checkbox" id="ch1">
+                    <label for="ch1" style="width: fit-content; height: fit-content;"><svg style="position: relative; top:-2px;" width="41" height="33" viewBox="0 0 41 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16.5" cy="24.5" r="8.5" fill="#D9D9D9"/>
+                        <path d="M3.35479 14.3523C3.55073 14.1577 3.86731 14.1588 4.06189 14.3548L17.6588 28.0469C17.8534 28.2429 17.8523 28.5595 17.6563 28.754V28.754C17.4604 28.9486 17.1438 28.9475 16.9492 28.7516L10.1508 21.9055L3.35232 15.0594C3.15774 14.8635 3.15884 14.5469 3.35479 14.3523V14.3523Z" stroke="#277EE3" stroke-width="5.8"/>
+                        <path d="M17.3867 28.5712C17.1731 28.3961 17.1419 28.0811 17.317 27.8675L36.7069 4.21138C36.8819 3.99781 37.197 3.96659 37.4106 4.14164V4.14164C37.6241 4.3167 37.6553 4.63174 37.4803 4.8453L27.7853 16.6734L18.0904 28.5015C17.9153 28.715 17.6003 28.7463 17.3867 28.5712V28.5712Z" stroke="#277EE3" stroke-width="5.8"/>
+                    </svg></label>
+                </confirm>Я ознакомлен(а) с политикой "Дедов"</div>
+            <button style="background-color: #e5c8c88a; border: 1px solid #50a2a7; border-radius: 15px; width: 38vw; height: 2.1rem; font-size: 1.3rem;">Create</button>
+        </form>
+        <div style="display: grid; place-items:center; font-size: .75rem;">
+            <span>Уже зарегистрирован?</span><br>
+            <a href="#" onclick="swapModes()">Войти</a>
+        </div>
+    </mode>
+</body>
+</html>
